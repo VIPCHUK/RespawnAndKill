@@ -43,7 +43,7 @@ namespace RespawnAndKill.Commands
                 var reasons = RespawnAndKillPlugin.Instance.Config.RandomKillReasons;
                 if (reasons == null || reasons.Count == 0)
                 {
-                    reason = "решил(а) покинуть этот мир.";
+                    reason = "Решил покинуть этот мир.";
                 }
                 else
                 {
