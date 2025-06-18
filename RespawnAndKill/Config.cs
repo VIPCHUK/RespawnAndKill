@@ -27,7 +27,7 @@ namespace RespawnAndKill
         public bool IsDangerSpawnEnabled { get; set; } = true;
 
         [Description("RSP: Текст подсказки, который увидит игрок при опасном возрождении.")]
-        public string DangerSpawnHint { get; set; } = "<color=red>Вы заспавнились в опасном месте. Бегите!</color>";
+        public string DangerSpawnHint { get; set; } = "<br><br><size=26>Вы заспавнились в <color=red>опасном</color> месте. Бегите!";
 
         [Description("RSP: Продолжительность (в секундах) эффекта ускорения при опасном возрождении.")]
         public float DangerSpawnBoostDuration { get; set; } = 10f;
