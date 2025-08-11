@@ -7,7 +7,7 @@ namespace RespawnAndKill
     public class RespawnAndKillPlugin : Plugin<Config>
     {
         public override string Name => "RespawnAndKill";
-        public override string Author => "honvert";
+        public override string Author => "VIPCHUK";
         public override Version Version => new Version(1, 2, 0);
         public override Version RequiredExiledVersion => new Version(8, 0, 0);
 
