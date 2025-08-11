@@ -13,7 +13,7 @@ namespace RespawnAndKill.Commands
     {
         public string Command => "respawn";
         public string[] Aliases => new[] { "rsp" };
-        public string Description => "Возрождает игрока в роли Класса-D или Ученого с перезарядкой.";
+        public string Description => "Respawns a player as a Class-D or Scientist with a cooldown.";
 
         private static readonly Dictionary<string, DateTime> Cooldowns = new Dictionary<string, DateTime>();
         private static readonly Random Rng = new Random();
@@ -21,35 +21,41 @@ namespace RespawnAndKill.Commands
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
-            if (!_config.IsKillCommandEnabled || Helpers.CommandStateManager.IsRespawnTemporarilyDisabled)
+            if (!_config.IsRespawnCommandEnabled || Helpers.CommandStateManager.IsRespawnTemporarilyDisabled)
             {
-                response = "Команда .respawn (.rsp) в данный момент отключена.";
+                response = "The .respawn (.rsp) command is currently disabled.";
                 return false;
             }
-            
+
             if (!(sender is PlayerCommandSender playerSender))
             {
-                response = "Эта команда может быть использована только игроком.";
+                response = "This command can only be used by a player.";
                 return false;
             }
-            
+
             if (!Round.IsStarted)
             {
-                response = "Вы не можете использовать эту команду, пока раунд не начался.";
+                response = "You cannot use this command until the round has started.";
                 return false;
             }
-            
+
             if (_config.RespawnTimeLimit > 0 && Round.ElapsedTime.TotalSeconds > _config.RespawnTimeLimit)
             {
-                response = $"Вы больше не можете использовать эту команду. Она доступна только в течение первых {_config.RespawnTimeLimit} секунд раунда.";
+                response = $"You can no longer use this command. It is only available during the first {_config.RespawnTimeLimit} seconds of the round.";
                 return false;
             }
-            
+
             Player player = Player.Get(playerSender);
-            
+
             if (player.Role.Type != RoleTypeId.Spectator)
             {
-                response = "Вы должны быть мертвы, чтобы использовать эту команду.";
+                response = "You must be dead to use this command.";
+                return false;
+            }
+
+            if (Warhead.IsDetonated)
+            {
+                response = "You cannot use this command because the nuke has detonated.";
                 return false;
             }
 
@@ -59,22 +65,22 @@ namespace RespawnAndKill.Commands
                 float cooldown = RespawnAndKillPlugin.Instance.Config.RespawnCooldown;
                 if (elapsed.TotalSeconds < cooldown)
                 {
-                    response = $"Пожалуйста, подождите. Вы сможете использовать эту команду через {Math.Ceiling(cooldown - elapsed.TotalSeconds)} секунд.";
+                    response = $"Please wait. You can use this command in {Math.Ceiling(cooldown - elapsed.TotalSeconds)} seconds.";
                     return false;
                 }
             }
-            
+
             int dClassChance = RespawnAndKillPlugin.Instance.Config.DClassSpawnChance;
             int roll = Rng.Next(1, 101);
 
             RoleTypeId roleToSpawn = roll <= dClassChance ? RoleTypeId.ClassD : RoleTypeId.Scientist;
-            
+
             player.Role.Set(roleToSpawn, RoleSpawnFlags.All);
-            
+
             CheckForDanger(player);
-            
+
             Cooldowns[player.UserId] = DateTime.Now;
-            response = $"Вы были возрождены как {roleToSpawn}.";
+            response = $"You have been respawned as {roleToSpawn}.";
             return true;
         }
         private void CheckForDanger(Player player)
@@ -83,7 +89,7 @@ namespace RespawnAndKill.Commands
                 return;
 
             Room spawnRoom = player.CurrentRoom;
-            if (spawnRoom == null) 
+            if (spawnRoom == null)
                 return;
 
             foreach (Player p in Player.List)
@@ -91,7 +97,7 @@ namespace RespawnAndKill.Commands
                 if (p.IsScp && p.CurrentRoom == spawnRoom)
                 {
                     player.EnableEffect(EffectType.MovementBoost, _config.DangerSpawnBoostDuration);
-                    
+
                     if (player.TryGetEffect(EffectType.MovementBoost, out var effect))
                     {
                         effect.Intensity = _config.DangerSpawnBoostIntensity;
