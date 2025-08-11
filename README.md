@@ -60,6 +60,14 @@ respawnandkill:
   # KILL: List of random death reasons if no reason is specified
   RandomKillReasons: ...
 ```
+## Commands
+
+### **Player Commands**
+- `.rsp` / `.respawn` - Respawns a player as a Class-D or Scientist with a cooldown.
+- `.kill <message>` / `.kill` - Allows a player to commit suicide with a specified reason.
+
+### **Admin Commands** (Remote Admin)
+- `togglecmd` / `tcmd` - Toggle .kill and .rsp on/off
 
 ## Compatibility
 - **EXILED**: 9.6.0+
