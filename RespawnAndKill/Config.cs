@@ -7,65 +7,55 @@ namespace RespawnAndKill
     public class Config : IConfig
     {
         // General
-        [Description("Enable or disable the plugin.")]
+        [Description("Включить или выключить плагин.")]
         public bool IsEnabled { get; set; } = true;
 
-        [Description("Enable or disable debug mode (detailed information in the console).")]
+        [Description("Включить или выключить режим отладки (вывод подробной информации в консоль).")]
         public bool Debug { get; set; } = false;
-
-        [Description("Enable the .respawn command?")]
+        
+        [Description("Включить команду .respawn?")]
         public bool IsRespawnCommandEnabled { get; set; } = true;
 
-        [Description("Enable the .kill command?")]
+        [Description("Включить команду .kill?")]
         public bool IsKillCommandEnabled { get; set; } = true;
 
         // RSP
-        [Description("Maximum time (in seconds) from the start of the round during which the .respawn command can be used. Set to 0 to disable the limit.")]
-        public float RespawnTimeLimit { get; set; } = 240f;
-
-        [Description("RSP: Enable the 'Dangerous Respawn' feature? If true, the player will receive a speed boost if respawning near an SCP.")]
+        [Description("Максимальное время (в секундах) с начала раунда, в течение которого можно использовать команду .respawn. Установите 0, чтобы отключить ограничение.")]
+        public float RespawnTimeLimit { get; set; } = 300f;
+        
+        [Description("RSP: Включить функцию 'Опасное возрождение'? Если true, игрок получит ускорение, если возродится рядом с SCP.")]
         public bool IsDangerSpawnEnabled { get; set; } = true;
 
-        [Description("RSP: Hint text that the player will see during a dangerous respawn.")]
-        public string DangerSpawnHint { get; set; } = "<br><br><size=26>You have respawned in a <color=red>dangerous</color> area. Run!";
+        [Description("RSP: Текст подсказки, который увидит игрок при опасном возрождении.")]
+        public string DangerSpawnHint { get; set; } = "<br><br><size=26>Вы заспавнились в <color=red>опасном</color> месте. Бегите!";
 
-        [Description("RSP: Duration (in seconds) of the speed boost effect during a dangerous respawn.")]
+        [Description("RSP: Продолжительность (в секундах) эффекта ускорения при опасном возрождении.")]
         public float DangerSpawnBoostDuration { get; set; } = 10f;
 
-        [Description("RSP: Intensity of the speed boost effect (in percentage). 20 = 20% speed boost.")]
+        [Description("RSP: Интенсивность эффекта ускорения (в процентах). 20 = 20% ускорения.")]
         public byte DangerSpawnBoostIntensity { get; set; } = 60;
-
-        [Description("RSP: Cooldown time (in seconds) before the .respawn command can be used again.")]
+        
+        [Description("RSP: Время ожидания (в секундах) перед повторным использованием команды .respawn.")]
         public float RespawnCooldown { get; set; } = 30f;
 
-        [Description("RSP: Chance (in percentage) to respawn as Class-D.")]
+        [Description("RSP: Шанс (в процентах) возродиться как Класс-D.")]
         public int DClassSpawnChance { get; set; } = 70;
 
-        [Description("RSP: Chance (in percentage) to respawn as a Scientist. Note: the sum of chances with DClass does not necessarily have to be 100.")]
+        [Description("RSP: Шанс (в процентах) возродиться как Ученый. Примечание: сумма шансов с DClass не обязательно должна быть 100.")]
         public int ScientistSpawnChance { get; set; } = 30;
 
         // KILL
-        [Description("KILL: Maximum number of characters for a custom death reason.")]
+        [Description("KILL: Максимальное количество символов для пользовательской причины смерти.")]
         public int KillReasonCharLimit { get; set; } = 100;
 
-        [Description("KILL: List of random death reasons if no reason is specified.")]
+        [Description("KILL: Список случайных причин смерти, если причина не указана.")]
         public List<string> RandomKillReasons { get; set; } = new List<string>
         {
-            "Decided to test if fall damage exists.",
-            "Got lost in thoughts.",
-            "Saw a scary dream.",
-            "Slipped on a banana peel.",
-            "Tried to hug SCP-173.",
-            "SGkgOykKU2b252ZXJ0",
-            "Tried to pet SCP-049.",
-            "Thought it was a good idea to play with SCP-096.",
-            "Wanted to see if SCP-106's pocket dimension is cozy.",
-            "Decided to take a nap in the middle of the warhead detonation.",
-            "Tried to play hide and seek with SCP-939.",
-            "Wanted to see if SCP-079 would let them in.",
-            "Thought it was a good idea to play tag with SCP-173.",
-            "Tried to pet SCP-049's plague doctor mask.",
-            "Wanted to see if SCP-079 would let them in for a chat.",
+            "Решил проверить, есть ли урон от падения.",
+            "Заблудился в мыслях.",
+            "Увидел страшный сон.",
+            "Поскользнулся на банановой кожуре.",
+            "Попытался обнять SCP-173."
         };
     }
 }

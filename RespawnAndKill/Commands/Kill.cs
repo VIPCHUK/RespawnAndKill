@@ -10,7 +10,7 @@ namespace RespawnAndKill.Commands
     {
         public string Command => "kill";
         public string[] Aliases => new string[0];
-        public string Description => "Allows a player to commit suicide with a specified reason.";
+        public string Description => "Позволяет игроку совершить самоубийство с указанием причины.";
 
         private readonly Config _config = RespawnAndKillPlugin.Instance.Config;
         private static readonly Random Rng = new Random();
@@ -19,13 +19,13 @@ namespace RespawnAndKill.Commands
         {
             if (!_config.IsKillCommandEnabled || Helpers.CommandStateManager.IsKillTemporarilyDisabled)
             {
-                response = "The .kill command is currently disabled.";
+                response = "Команда .kill в данный момент отключена.";
                 return false;
             }
             
             if (!(sender is PlayerCommandSender playerSender))
             {
-                response = "This command can only be used by a player.";
+                response = "Эта команда может быть использована только игроком.";
                 return false;
             }
 
@@ -33,7 +33,7 @@ namespace RespawnAndKill.Commands
 
             if (!player.IsAlive)
             {
-                response = "You must be alive to use this command.";
+                response = "Вы не можете использовать эту команду, так как вы уже мертвы.";
                 return false;
             }
 
@@ -43,7 +43,7 @@ namespace RespawnAndKill.Commands
                 var reasons = RespawnAndKillPlugin.Instance.Config.RandomKillReasons;
                 if (reasons == null || reasons.Count == 0)
                 {
-                    reason = "Unknown Reason.";
+                    reason = "Решил покинуть этот мир.";
                 }
                 else
                 {
@@ -57,13 +57,13 @@ namespace RespawnAndKill.Commands
                 
                 if (reason.Length > charLimit)
                 {
-                    response = $"Cause of death is too long. Maximum characters: {charLimit}.";
+                    response = $"Причина смерти слишком длинная. Максимальное количество символов: {charLimit}.";
                     return false;
                 }
             }
 
             player.Kill(reason);
-            response = "You have successfully committed suicide.";
+            response = "Вы успешно совершили самоубийство.";
             return true;
         }
     }

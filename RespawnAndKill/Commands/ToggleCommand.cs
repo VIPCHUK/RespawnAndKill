@@ -10,19 +10,19 @@ namespace RespawnAndKill.Commands
     {
         public string Command => "togglecmd";
         public string[] Aliases => new[] { "tcmd" };
-        public string Description => "Temporarily enables or disables the .respawn or .kill commands for the current round.";
+        public string Description => "Временно включает или отключает команды .respawn или .kill на текущий раунд.";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             if (!sender.CheckPermission("respawnkill.toggle"))
             {
-                response = "You do not have permission to use this command. Required permission: respawnkill.toggle";
+                response = "У вас нет прав на использование этой команды. Требуется право: respawnkill.toggle";
                 return false;
             }
 
             if (arguments.Count != 2)
             {
-                response = "Usage: togglecmd <respawn|kill> <on|off>";
+                response = "Использование: togglecmd <respawn|kill> <on|off>";
                 return false;
             }
 
@@ -39,7 +39,7 @@ namespace RespawnAndKill.Commands
                     disable = true;
                     break;
                 default:
-                    response = "Invalid state. Use 'on' or 'off'.";
+                    response = "Неверное состояние. Используйте 'on' или 'off'.";
                     return false;
             }
 
@@ -47,14 +47,14 @@ namespace RespawnAndKill.Commands
             {
                 case "respawn":
                     CommandStateManager.IsRespawnTemporarilyDisabled = disable;
-                    response = $".respawn command has been temporarily {(disable ? "disabled" : "enabled")} for this round.";
+                    response = $"Команда .respawn была временно {(disable ? "отключена" : "включена")} на этот раунд.";
                     return true;
                 case "kill":
                     CommandStateManager.IsKillTemporarilyDisabled = disable;
-                    response = $".kill command has been temporarily {(disable ? "disabled" : "enabled")} for this round.";
+                    response = $"Команда .kill была временно {(disable ? "отключена" : "включена")} на этот раунд.";
                     return true;
                 default:
-                    response = "Invalid command. Use 'respawn' or 'kill'.";
+                    response = "Неверная команда. Используйте 'respawn' или 'kill'.";
                     return false;
             }
         }
